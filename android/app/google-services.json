@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "63584606851",
+    "project_id": "email-password-login-f7486",
+    "storage_bucket": "email-password-login-f7486.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63584606851:android:2fd7d14597b1991fd599b6",
+        "android_client_info": {
+          "package_name": "com.example.email_password_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63584606851-9smblabnsbsgfa91b9pe557gb24vu61v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxu_CnVq5o9HNKz-Y-nQdwyfeUFYJDy08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63584606851-9smblabnsbsgfa91b9pe557gb24vu61v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "63584606851-0gl257bfiaq2ccdkoho1f7tga4cscikl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.emailPasswordLogin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
