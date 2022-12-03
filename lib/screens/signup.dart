@@ -1,5 +1,8 @@
+import 'package:email_password_login/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -248,7 +251,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  /*void signUp(String email, String password) async {
+  void signUp(String email, String password) async {
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
@@ -266,5 +269,10 @@ class _SignUpState extends State<SignUp> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     UserModel userModel = UserModel();
-  }*/
+    // writing all the values
+    userModel.uid = user!.uid;
+    userModel.email = user.email;
+    userModel.firstName = firstNameEditingController.text;
+    userModel.secondName = secondNameEditingController.text;
+  }
 }
