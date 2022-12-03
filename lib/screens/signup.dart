@@ -1,4 +1,5 @@
 import 'package:email_password_login/models/user_model.dart';
+import 'package:email_password_login/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -139,8 +140,8 @@ class _SignUpState extends State<SignUp> {
       controller: confirmPasswordEditingController,
       obscureText: true,
       validator: ((value) {
-        if (confirmPasswordEditingController.text.length > 6 &&
-            confirmPasswordEditingController.text != value) {
+        if (confirmPasswordEditingController.text !=
+            passwordEditingController.text) {
           return "Passwords don't match";
         }
         return null;
@@ -164,7 +165,9 @@ class _SignUpState extends State<SignUp> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.red[700],
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          signUp(emailEditingController.text, passwordEditingController.text);
+        },
         padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
         minWidth: MediaQuery.of(context).size.width,
         child: const Text(
@@ -274,5 +277,15 @@ class _SignUpState extends State<SignUp> {
     userModel.email = user.email;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => const Home()),
+        (route) => false);
   }
 }
