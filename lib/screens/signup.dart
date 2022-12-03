@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -8,6 +9,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _auth = FirebaseAuth.instance;
   // form key
   final _formkey = GlobalKey<FormState>();
   // editing controller
@@ -20,12 +22,22 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     // first name field
-    final firstNameField = TextField(
+    final firstNameField = TextFormField(
       autofocus: false,
       controller: firstNameEditingController,
       keyboardType: TextInputType.name,
-      onSubmitted: (value) {
-        firstNameEditingController.text = value;
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{3,}$');
+        if (value!.isEmpty) {
+          return ("First Name cannot be Empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid First Name (Min. 3 Character)");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        firstNameEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -38,12 +50,18 @@ class _SignUpState extends State<SignUp> {
     );
 
     // second name field
-    final secondNameField = TextField(
+    final secondNameField = TextFormField(
       autofocus: false,
       controller: secondNameEditingController,
       keyboardType: TextInputType.name,
-      onSubmitted: (value) {
-        secondNameEditingController.text = value;
+      validator: (value) {
+        if (value!.isEmpty) {
+          return ("Second Name cannot be Empty");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        secondNameEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -56,12 +74,23 @@ class _SignUpState extends State<SignUp> {
     );
 
     // email field
-    final emailField = TextField(
+    final emailField = TextFormField(
       autofocus: false,
       controller: emailEditingController,
       keyboardType: TextInputType.emailAddress,
-      onSubmitted: (value) {
-        emailEditingController.text = value;
+      validator: (value) {
+        if (value!.isEmpty) {
+          return ("Enter your Email");
+        }
+        // reg expression for email validation
+        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
+            .hasMatch(value)) {
+          return ("Enter a valid Email");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        emailEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -74,12 +103,22 @@ class _SignUpState extends State<SignUp> {
     );
 
     // password field
-    final passwordField = TextField(
+    final passwordField = TextFormField(
       autofocus: false,
       controller: passwordEditingController,
       obscureText: true,
-      onSubmitted: (value) {
-        passwordEditingController.text = value;
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{6,}$');
+        if (value!.isEmpty) {
+          return ("Password is required for login");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid Password (Min. 6 Character)");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        passwordEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -92,12 +131,19 @@ class _SignUpState extends State<SignUp> {
     );
 
     // confirm password field
-    final confirmpasswordField = TextField(
+    final confirmpasswordField = TextFormField(
       autofocus: false,
       controller: confirmPasswordEditingController,
       obscureText: true,
-      onSubmitted: (value) {
-        confirmPasswordEditingController.text = value;
+      validator: ((value) {
+        if (confirmPasswordEditingController.text.length > 6 &&
+            confirmPasswordEditingController.text != value) {
+          return "Passwords don't match";
+        }
+        return null;
+      }),
+      onSaved: (value) {
+        confirmPasswordEditingController.text = value!;
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
@@ -201,4 +247,24 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
+  /*void signUp(String email, String password) async {
+    if (_formkey.currentState!.validate()) {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFirestore()})
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    }
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sending these values
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    UserModel userModel = UserModel();
+  }*/
 }
