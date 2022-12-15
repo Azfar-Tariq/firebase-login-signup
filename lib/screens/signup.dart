@@ -13,6 +13,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  bool _obscureText = true;
   final _auth = FirebaseAuth.instance;
   // form key
   final _formkey = GlobalKey<FormState>();
@@ -127,6 +128,14 @@ class _SignUpState extends State<SignUp> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           prefixIcon: const Icon(Icons.vpn_key),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+          ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
           border: OutlineInputBorder(
@@ -152,6 +161,14 @@ class _SignUpState extends State<SignUp> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
           prefixIcon: const Icon(Icons.vpn_key),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+          ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Confirm Password",
           border: OutlineInputBorder(

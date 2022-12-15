@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _obscureText = true;
   // form key
   final _formkey = GlobalKey<FormState>();
   // editing controller
@@ -72,6 +73,14 @@ class _LoginScreenState extends State<LoginScreen> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
           prefixIcon: const Icon(Icons.vpn_key),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+          ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
           border: OutlineInputBorder(
