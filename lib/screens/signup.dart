@@ -13,7 +13,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  bool _obscureText = true;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
   final _auth = FirebaseAuth.instance;
   // form key
   final _formkey = GlobalKey<FormState>();
@@ -99,19 +100,20 @@ class _SignUpState extends State<SignUp> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.email),
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Email",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
+        prefixIcon: const Icon(Icons.email),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Email",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
 
     // password field
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordEditingController,
-      obscureText: true,
+      obscureText: _obscurePassword,
       validator: (value) {
         RegExp regex = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
@@ -131,10 +133,12 @@ class _SignUpState extends State<SignUp> {
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {
-                _obscureText = !_obscureText;
+                _obscurePassword = !_obscurePassword;
               });
             },
-            child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+            child: Icon(
+              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+            ),
           ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
@@ -147,7 +151,7 @@ class _SignUpState extends State<SignUp> {
     final confirmpasswordField = TextFormField(
       autofocus: false,
       controller: confirmPasswordEditingController,
-      obscureText: true,
+      obscureText: _obscureConfirmPassword,
       validator: ((value) {
         if (confirmPasswordEditingController.text !=
             passwordEditingController.text) {
@@ -164,10 +168,12 @@ class _SignUpState extends State<SignUp> {
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {
-                _obscureText = !_obscureText;
+                _obscureConfirmPassword = !_obscureConfirmPassword;
               });
             },
-            child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+            child: Icon(
+              _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+            ),
           ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Confirm Password",
@@ -199,69 +205,73 @@ class _SignUpState extends State<SignUp> {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.red,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.red,
+            ),
+            onPressed: () {
+              // passing this to our root
+              Navigator.of(context).pop();
+            },
           ),
-          onPressed: () {
-            // passing this to our root
-            Navigator.of(context).pop();
-          },
         ),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formkey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 180,
-                      child: Image.asset(
-                        "assets/download.png",
-                        fit: BoxFit.contain,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(36.0),
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 180,
+                        child: Image.asset(
+                          "assets/download.png",
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 45,
-                    ),
-                    firstNameField,
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    secondNameField,
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    emailField,
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    passwordField,
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    confirmpasswordField,
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    singupButton,
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      firstNameField,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      secondNameField,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      emailField,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      passwordField,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      confirmpasswordField,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      singupButton,
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
